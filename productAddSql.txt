@@ -1,0 +1,2 @@
+INSERT INTO public."Products"
+VALUES (17, '', True, '');
