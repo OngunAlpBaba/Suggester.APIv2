@@ -6,5 +6,7 @@ namespace Suggester.APIv2{
         public DbSet<Customer> Customers{get; set;}
         public DbSet<Order> Orders{get; set;}
         public DbSet<Product> Products{get; set;}
+        public DbSet<Suggestion> Suggestions{get; set;}
+        public DbSet<Session> Sessions{get; set;}
     }
 }
