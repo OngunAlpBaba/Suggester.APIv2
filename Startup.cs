@@ -32,6 +32,8 @@ namespace Suggester.APIv2
 
             services.AddEntityFrameworkNpgsql()
                 .AddDbContext<DataContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DEV_DB")));
+
+                
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

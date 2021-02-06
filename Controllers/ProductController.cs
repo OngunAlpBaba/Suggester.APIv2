@@ -10,6 +10,16 @@ namespace Suggester.APIv2.Controllers{
 
         public ProductController(DataContext dtx){
             _dtx = dtx;
+
+            var data = _dtx.Suggestions.ToList();
+            var size = data.Count;
+            for(int i=0; i<size; ++i)
+                _dtx.Suggestions.Remove(data[i]);
+
+            var data2 = _dtx.Sessions.ToList();
+            size = data2.Count;
+            for(int i=0; i<size; ++i)
+                _dtx.Sessions.Remove(data2[i]);
         }
 
         [HttpGet]
@@ -39,9 +49,14 @@ namespace Suggester.APIv2.Controllers{
                 int[] indexes = new int[4]; 
                 var data = _dtx.Products.OrderBy(c => c.Id).ToList();
                 var ses = new Session();
-                ses.Id = _dtx.Sessions.Last().Id + 1;
+                try{
+                    ses.Id = _dtx.Sessions.OrderBy(c => c.Id).Last().Id + 1;
+                }
+                catch{
+                    ses.Id = 0;
+                }
+                ses.Sid = "0";
                 ses.Text  = searchText.ToString();
-                ses.Sid = 0;
                 ses.Image = null;
                 _dtx.Sessions.Add(ses);
                 _dtx.SaveChanges();
@@ -73,9 +88,14 @@ namespace Suggester.APIv2.Controllers{
             }
 
             var ses = new Session();
-            ses.Id = _dtx.Sessions.Last().Id + 1;
+            try{
+                ses.Id = _dtx.Sessions.OrderBy(c => c.Id).Last().Id + 1;
+            }
+            catch{
+                ses.Id = 0;
+            }
             ses.Text  = product.Name.ToString();
-            ses.Sid = 0;
+            ses.Sid = "0";
             ses.Image = product.Image.ToString();
             _dtx.Sessions.Add(ses);
             _dtx.SaveChanges();
